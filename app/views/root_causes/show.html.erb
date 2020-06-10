@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Kpi:</strong>
+  <%= @root_cause.kpi %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @root_cause.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @root_cause.description %>
+</p>
+
+<%= link_to 'Edit', edit_root_cause_path(@root_cause) %> |
+<%= link_to 'Back', root_causes_path %>

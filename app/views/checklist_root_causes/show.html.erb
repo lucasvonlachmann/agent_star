@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Checklist:</strong>
+  <%= @checklist_root_cause.checklist %>
+</p>
+
+<p>
+  <strong>Root cause:</strong>
+  <%= @checklist_root_cause.root_cause %>
+</p>
+
+<%= link_to 'Edit', edit_checklist_root_cause_path(@checklist_root_cause) %> |
+<%= link_to 'Back', checklist_root_causes_path %>

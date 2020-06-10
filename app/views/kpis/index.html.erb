@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Kpis</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Carrier</th>
+      <th>Name</th>
+      <th>Taget</th>
+      <th>Max limit</th>
+      <th>Min limit</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @kpis.each do |kpi| %>
+      <tr>
+        <td><%= kpi.carrier %></td>
+        <td><%= kpi.name %></td>
+        <td><%= kpi.taget %></td>
+        <td><%= kpi.max_limit %></td>
+        <td><%= kpi.min_limit %></td>
+        <td><%= link_to 'Show', kpi %></td>
+        <td><%= link_to 'Edit', edit_kpi_path(kpi) %></td>
+        <td><%= link_to 'Destroy', kpi, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Kpi', new_kpi_path %>

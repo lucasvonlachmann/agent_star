@@ -1,0 +1,74 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Scale:</strong>
+  <%= @checklist.scale %>
+</p>
+
+<p>
+  <strong>Draft arrival:</strong>
+  <%= @checklist.draft_arrival %>
+</p>
+
+<p>
+  <strong>Tugs arrival:</strong>
+  <%= @checklist.tugs_arrival %>
+</p>
+
+<p>
+  <strong>Eosp:</strong>
+  <%= @checklist.eosp %>
+</p>
+
+<p>
+  <strong>Pob arrival:</strong>
+  <%= @checklist.pob_arrival %>
+</p>
+
+<p>
+  <strong>Berthed:</strong>
+  <%= @checklist.berthed %>
+</p>
+
+<p>
+  <strong>Gangway ready:</strong>
+  <%= @checklist.gangway_ready %>
+</p>
+
+<p>
+  <strong>Started ops:</strong>
+  <%= @checklist.started_ops %>
+</p>
+
+<p>
+  <strong>Completed ops:</strong>
+  <%= @checklist.completed_ops %>
+</p>
+
+<p>
+  <strong>Terminal requested:</strong>
+  <%= @checklist.terminal_requested %>
+</p>
+
+<p>
+  <strong>Pob departure:</strong>
+  <%= @checklist.pob_departure %>
+</p>
+
+<p>
+  <strong>Last line:</strong>
+  <%= @checklist.last_line %>
+</p>
+
+<p>
+  <strong>Draft departure:</strong>
+  <%= @checklist.draft_departure %>
+</p>
+
+<p>
+  <strong>Tugs departure:</strong>
+  <%= @checklist.tugs_departure %>
+</p>
+
+<%= link_to 'Edit', edit_checklist_path(@checklist) %> |
+<%= link_to 'Back', checklists_path %>

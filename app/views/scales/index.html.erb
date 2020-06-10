@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Scales</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Vessel</th>
+      <th>Carrier</th>
+      <th>Voyage</th>
+      <th>Service</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @scales.each do |scale| %>
+      <tr>
+        <td><%= scale.vessel %></td>
+        <td><%= scale.carrier %></td>
+        <td><%= scale.voyage %></td>
+        <td><%= scale.service %></td>
+        <td><%= link_to 'Show', scale %></td>
+        <td><%= link_to 'Edit', edit_scale_path(scale) %></td>
+        <td><%= link_to 'Destroy', scale, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Scale', new_scale_path %>
