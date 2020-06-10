@@ -1,14 +1,10 @@
 
-<%= simple_form_for(@scale) do |f| %>
+<%= simple_form_for(@port) do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
   <div class="form-inputs">
-    <%= f.association :vessel %>
-    <%= f.association :carrier %>
-    <%= f.association :port %>
-    <%= f.input :voyage %>
-    <%= f.input :service %>
+    <%= f.input :name %>
   </div>
 
   <div class="form-actions">

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :ports
   resources :checklist_root_causes
   resources :checklists
   resources :root_causes

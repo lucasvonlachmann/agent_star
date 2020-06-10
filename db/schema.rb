@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_10_153156) do
+ActiveRecord::Schema.define(version: 2020_06_10_162747) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,6 +61,12 @@ ActiveRecord::Schema.define(version: 2020_06_10_153156) do
     t.index ["carrier_id"], name: "index_kpis_on_carrier_id"
   end
 
+  create_table "ports", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "root_causes", force: :cascade do |t|
     t.bigint "kpi_id"
     t.string "name"
@@ -77,7 +83,9 @@ ActiveRecord::Schema.define(version: 2020_06_10_153156) do
     t.string "service"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "port_id"
     t.index ["carrier_id"], name: "index_scales_on_carrier_id"
+    t.index ["port_id"], name: "index_scales_on_port_id"
     t.index ["vessel_id"], name: "index_scales_on_vessel_id"
   end
 
@@ -105,5 +113,6 @@ ActiveRecord::Schema.define(version: 2020_06_10_153156) do
   add_foreign_key "kpis", "carriers"
   add_foreign_key "root_causes", "kpis"
   add_foreign_key "scales", "carriers"
+  add_foreign_key "scales", "ports"
   add_foreign_key "scales", "vessels"
 end

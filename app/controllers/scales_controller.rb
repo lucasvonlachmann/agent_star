@@ -69,6 +69,6 @@ class ScalesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def scale_params
-      params.require(:scale).permit(:vessel_id, :carrier_id, :voyage, :service)
+      params.require(:scale).permit(:vessel_id, :carrier_id, :port_id, :voyage, :service)
     end
 end
