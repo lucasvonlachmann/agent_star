@@ -2,12 +2,12 @@
 
 <h1>Checklist Root Causes</h1>
 
-<table>
+<table class="table">
   <thead>
     <tr>
       <th>Checklist</th>
       <th>Root cause</th>
-      <th colspan="3"></th>
+      <th colspan="3">Actions</th>
     </tr>
   </thead>
 
@@ -16,9 +16,7 @@
       <tr>
         <td><%= checklist_root_cause.checklist %></td>
         <td><%= checklist_root_cause.root_cause %></td>
-        <td><%= link_to 'Show', checklist_root_cause %></td>
-        <td><%= link_to 'Edit', edit_checklist_root_cause_path(checklist_root_cause) %></td>
-        <td><%= link_to 'Destroy', checklist_root_cause, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show',  checklist_root_cause %> | <%= link_to 'Edit', edit_checklist_root_cause_path(checklist_root_cause) %> | <%= link_to 'Destroy', checklist_root_cause, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

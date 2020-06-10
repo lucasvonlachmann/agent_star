@@ -2,7 +2,7 @@
 
 <h1>Kpis</h1>
 
-<table>
+<table class="table">
   <thead>
     <tr>
       <th>Carrier</th>
@@ -10,7 +10,7 @@
       <th>Taget</th>
       <th>Max limit</th>
       <th>Min limit</th>
-      <th colspan="3"></th>
+      <th colspan="3">Actions</th>
     </tr>
   </thead>
 
@@ -22,9 +22,7 @@
         <td><%= kpi.taget %></td>
         <td><%= kpi.max_limit %></td>
         <td><%= kpi.min_limit %></td>
-        <td><%= link_to 'Show', kpi %></td>
-        <td><%= link_to 'Edit', edit_kpi_path(kpi) %></td>
-        <td><%= link_to 'Destroy', kpi, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show',  kpi %> | <%= link_to 'Edit', edit_kpi_path(kpi) %> | <%= link_to 'Destroy', kpi, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

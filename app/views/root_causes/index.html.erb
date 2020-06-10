@@ -2,13 +2,13 @@
 
 <h1>Root Causes</h1>
 
-<table>
+<table class="table">
   <thead>
     <tr>
       <th>Kpi</th>
       <th>Name</th>
       <th>Description</th>
-      <th colspan="3"></th>
+      <th colspan="3">Actions</th>
     </tr>
   </thead>
 
@@ -18,9 +18,7 @@
         <td><%= root_cause.kpi %></td>
         <td><%= root_cause.name %></td>
         <td><%= root_cause.description %></td>
-        <td><%= link_to 'Show', root_cause %></td>
-        <td><%= link_to 'Edit', edit_root_cause_path(root_cause) %></td>
-        <td><%= link_to 'Destroy', root_cause, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show',  root_cause %> | <%= link_to 'Edit', edit_root_cause_path(root_cause) %> | <%= link_to 'Destroy', root_cause, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

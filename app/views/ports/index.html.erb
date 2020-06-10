@@ -2,11 +2,11 @@
 
 <h1>Ports</h1>
 
-<table>
+<table class="table">
   <thead>
     <tr>
       <th>Name</th>
-      <th colspan="3"></th>
+      <th colspan="3">Actions</th>
     </tr>
   </thead>
 
@@ -14,9 +14,7 @@
     <% @ports.each do |port| %>
       <tr>
         <td><%= port.name %></td>
-        <td><%= link_to 'Show', port %></td>
-        <td><%= link_to 'Edit', edit_port_path(port) %></td>
-        <td><%= link_to 'Destroy', port, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show',  port %> | <%= link_to 'Edit', edit_port_path(port) %> | <%= link_to 'Destroy', port, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
