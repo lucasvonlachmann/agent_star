@@ -17,7 +17,7 @@ class KpisControllerTest < ActionDispatch::IntegrationTest
 
   test "should create kpi" do
     assert_difference('Kpi.count') do
-      post kpis_url, params: { kpi: { carrier_id: @kpi.carrier_id, max_limit: @kpi.max_limit, min_limit: @kpi.min_limit, name: @kpi.name, taget: @kpi.taget } }
+      post kpis_url, params: { kpi: { carrier_id: @kpi.carrier_id, max_limit: @kpi.max_limit, min_limit: @kpi.min_limit, name: @kpi.name, target: @kpi.target } }
     end
 
     assert_redirected_to kpi_url(Kpi.last)
@@ -34,7 +34,7 @@ class KpisControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update kpi" do
-    patch kpi_url(@kpi), params: { kpi: { carrier_id: @kpi.carrier_id, max_limit: @kpi.max_limit, min_limit: @kpi.min_limit, name: @kpi.name, taget: @kpi.taget } }
+    patch kpi_url(@kpi), params: { kpi: { carrier_id: @kpi.carrier_id, max_limit: @kpi.max_limit, min_limit: @kpi.min_limit, name: @kpi.name, target: @kpi.target } }
     assert_redirected_to kpi_url(@kpi)
   end
 

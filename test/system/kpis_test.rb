@@ -18,7 +18,7 @@ class KpisTest < ApplicationSystemTestCase
     fill_in "Max limit", with: @kpi.max_limit
     fill_in "Min limit", with: @kpi.min_limit
     fill_in "Name", with: @kpi.name
-    fill_in "Taget", with: @kpi.taget
+    fill_in "target", with: @kpi.target
     click_on "Create Kpi"
 
     assert_text "Kpi was successfully created"
@@ -33,7 +33,7 @@ class KpisTest < ApplicationSystemTestCase
     fill_in "Max limit", with: @kpi.max_limit
     fill_in "Min limit", with: @kpi.min_limit
     fill_in "Name", with: @kpi.name
-    fill_in "Taget", with: @kpi.taget
+    fill_in "target", with: @kpi.target
     click_on "Update Kpi"
 
     assert_text "Kpi was successfully updated"

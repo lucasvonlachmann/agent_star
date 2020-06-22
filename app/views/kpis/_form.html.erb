@@ -5,8 +5,9 @@
 
   <div class="form-inputs">
     <%= f.association :carrier %>
-    <%= f.input :name %>
-    <%= f.input :taget %>
+    <%= f.association :port %>
+    <%= f.association :kpi_type %>
+    <%= f.input :target %>
     <%= f.input :max_limit %>
     <%= f.input :min_limit %>
   </div>

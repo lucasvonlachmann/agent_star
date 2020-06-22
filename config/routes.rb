@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :kpi_types
   resources :ports
   resources :checklist_root_causes
   resources :checklists

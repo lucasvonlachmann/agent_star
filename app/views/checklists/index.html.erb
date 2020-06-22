@@ -1,51 +1,51 @@
-<p id="notice"><%= notice %></p>
-
 <h1>Checklists</h1>
-
-<table class="table">
-  <thead>
-    <tr>
-      <th>Scale</th>
-      <th>Draft arrival</th>
-      <th>Tugs arrival</th>
-      <th>Eosp</th>
-      <th>Pob arrival</th>
-      <th>Berthed</th>
-      <th>Gangway ready</th>
-      <th>Started ops</th>
-      <th>Completed ops</th>
-      <th>Terminal requested</th>
-      <th>Pob departure</th>
-      <th>Last line</th>
-      <th>Draft departure</th>
-      <th>Tugs departure</th>
-      <th colspan="3">Actions</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @checklists.each do |checklist| %>
+<div class="overflow-auto">
+  <table class="table">
+    <thead>
       <tr>
-        <td><%= checklist.scale %></td>
-        <td><%= checklist.draft_arrival %></td>
-        <td><%= checklist.tugs_arrival %></td>
-        <td><%= checklist.eosp %></td>
-        <td><%= checklist.pob_arrival %></td>
-        <td><%= checklist.berthed %></td>
-        <td><%= checklist.gangway_ready %></td>
-        <td><%= checklist.started_ops %></td>
-        <td><%= checklist.completed_ops %></td>
-        <td><%= checklist.terminal_requested %></td>
-        <td><%= checklist.pob_departure %></td>
-        <td><%= checklist.last_line %></td>
-        <td><%= checklist.draft_departure %></td>
-        <td><%= checklist.tugs_departure %></td>
-        <td><%= link_to 'Show',  checklist %> | <%= link_to 'Edit', edit_checklist_path(checklist) %> | <%= link_to 'Destroy', checklist, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th>Scale</th>
+        <th>Draft arrival</th>
+        <th>Tugs arrival</th>
+        <th>Eosp</th>
+        <th>Pob arrival</th>
+        <th>Berthed</th>
+        <th>Gangway ready</th>
+        <th>Started ops</th>
+        <th>Completed ops</th>
+        <th>Terminal requested</th>
+        <th>Pob departure</th>
+        <th>Last line</th>
+        <th>Draft departure</th>
+        <th>Tugs departure</th>
+        <th>Remarks</th>
+        <th>Actions</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
+    <tbody>
+      <% @checklists.each do |checklist| %>
+        <tr>
+          <td><%= checklist.scale %></td>
+          <td><%= checklist.draft_arrival %></td>
+          <td><%= checklist.tugs_arrival %></td>
+          <td><%= checklist.eosp %></td>
+          <td><%= checklist.pob_arrival %></td>
+          <td><%= checklist.berthed %></td>
+          <td><%= checklist.gangway_ready %></td>
+          <td><%= checklist.started_ops %></td>
+          <td><%= checklist.completed_ops %></td>
+          <td><%= checklist.terminal_requested %></td>
+          <td><%= checklist.pob_departure %></td>
+          <td><%= checklist.last_line %></td>
+          <td><%= checklist.draft_departure %></td>
+          <td><%= checklist.tugs_departure %></td>
+          <td><%= checklist.remarks %></td>
+          <td><%= link_to 'Show',  checklist %> | <%= link_to 'Edit', edit_checklist_path(checklist) %> | <%= link_to 'Destroy', checklist, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 <br>
 
 <%= link_to 'New Checklist', new_checklist_path %>

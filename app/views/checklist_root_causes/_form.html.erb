@@ -4,11 +4,19 @@
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
   <div class="form-inputs">
-    <%= f.association :checklist %>
-    <%= f.association :root_cause %>
+    <% if @checklist_root_cause&.checklist&.scale&.present? %>
+      <%= render "scales/details_card", scale: @checklist_root_cause.checklist.scale %>
+      <%= render 'checklists/details_card', checklist: @checklist_root_cause.checklist %>
+      <%= render 'kpis/details_card', kpi: @kpi %>
+      <%= f.association :checklist, as: :hidden %>
+      <br>
+    <% else %>
+      <%= f.association :checklist %>
+    <% end %>
+    <%= f.input :root_cause_id, collection: @root_causes, label_method: :name, value_method: :id %>
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit %>
+    <%= f.button :submit, "Salvar", class: "btn btn-success" %>
   </div>
 <% end %>

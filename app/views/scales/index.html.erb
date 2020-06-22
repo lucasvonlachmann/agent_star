@@ -1,33 +1,89 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Scales</h1>
-
-<table class="table">
-  <thead>
-    <tr>
-      <th>Vessel</th>
-      <th>Carrier</th>
-      <th>Port</th>
-      <th>Voyage</th>
-      <th>Service</th>
-      <th colspan="3">Actions</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @scales.each do |scale| %>
+<br>
+<div class="d-flex justify-content-between">
+  <div>
+    <h2>Calls</h2>
+  </div>
+  <div>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+  <div class="p-1">
+    <%= link_to "New call", new_scale_path, class: "btn btn-outline-primary" %>
+  </div>
+</div>
+<br>
+<div class="overflow-auto">
+  <table class="table">
+    <thead>
       <tr>
-        <td><%= scale.vessel.name %></td>
-        <td><%= scale.carrier.name %></td>
-        <td><%= scale.port.name %></td>
-        <td><%= scale.voyage %></td>
-        <td><%= scale.service %></td>
-        <td><%= link_to 'Show',  scale %> | <%= link_to 'Edit', edit_scale_path(scale) %> | <%= link_to 'Destroy', scale, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th>Actions</th>
+        <th>Vessel</th>
+        <th>Carrier</th>
+        <th>Port</th>
+        <th>Voyage</th>
+        <th>Service</th>
+        <th>Checklist progress</th>
+        <th>Unmet targets</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+      <% @scales.each do |scale| %>
+        <tr>
+          <td class="d-flex justify-content-around">
+            <%= link_to scale do %>
+              <i class="fas fa-eye text-primary" title="Details"></i>
+            <% end %>
+            <%= link_to edit_scale_path(scale) do %>
+              <i class="fas fa-edit text-warning" title="Edit"></i>
+            <% end %>
+            <%= link_to scale, method: :delete, data: { confirm: 'Are you sure?' } do %>
+              <i class="far fa-trash-alt text-danger" title="Delete"></i>
+            <% end %>
+          </td>
+          <td><%= scale.vessel.name %></td>
+          <td><%= scale.carrier.name %></td>
+          <td><%= scale.port.name %></td>
+          <td><%= scale.voyage %></td>
+          <td><%= scale.service %></td>
+          <td class="text-center">
+            <% if scale.checklist.present? %>
+              <% if scale.checklist.progress == "100%" %>
+                <%= link_to edit_checklist_path(scale.checklist) do %>
+                  <span class="badge badge-success" title="Checklist"><%= scale.checklist.progress %></span>
+                <% end %>
+              <% else %>
+                <%= link_to edit_checklist_path(scale.checklist) do %>
+                  <span class="badge badge-warning" title="Checklist"><%= scale.checklist.progress %></span>
+                <% end %>
+              <% end %>
+            <% else %>
+              <%= link_to new_checklist_path(scale_id: scale.id) do %>
+                <span class="badge badge-secondary" title="Checklist">0%</span>
+              <% end %>
+            <% end %>
+          </td>
+          <td>
+            <div class="d-flex justify-content-around">
+              <% scale&.vw_checklist&.unmet_kpis&.each do |kpi| %>
+                <% if scale.checklist.checklist_root_causes.select { |crc| kpi.root_causes.include? crc.root_cause }.present? %>
+                  <%= link_to edit_checklist_root_cause_path(scale.checklist.checklist_root_causes.select { |crc| kpi.root_causes.include? crc.root_cause }.first) do %>
+                    <i class="fas fa-exclamation-triangle text-success" title="<%= kpi.kpi_type&.name %>"></i>
+                  <% end %>
+                <% else %>
+                  <%= link_to new_checklist_root_cause_path(checklist_id: scale.checklist.id, kpi_id: kpi.id) do %>
+                    <i class="fas fa-exclamation-triangle text-warning" title="<%= kpi.kpi_type&.name %>"></i>
+                  <% end %>
+                <% end %>
+              <% end %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
 <br>
-
-<%= link_to 'New Scale', new_scale_path %>

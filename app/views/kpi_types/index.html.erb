@@ -1,0 +1,35 @@
+<br>
+<div class="d-flex justify-content-between">
+  <div>
+    <h1>Kpis</h1>
+  </div>
+  <div>
+    <%= link_to 'New Kpi Type', new_kpi_type_path, class: "btn btn-primary" %>
+  </div>
+</div>
+<br>
+
+<% @kpi_types.each do |kpi_type| %>
+
+  <div class="card">
+    <h4 class="card-header"><%= kpi_type.name %></h4>
+    <div class="card-body">
+      <div class="row">
+        <div class=" col-6 text-center">
+          <h5>In/Out of Target</h5>
+          <%= pie_chart VwChecklistKpi.where(kpi_type_id: kpi_type.id).group(:target_in_out).count, legend: "bottom", height: "200px" %>
+        </div>
+        <div class=" col-6 text-center">
+          <h5>Root Causes Details</h5>
+          <%= pie_chart VwChecklistRootCause.where(kpi_type_id: kpi_type.id).group(:name).count, legend: "bottom", height: "200px" %>
+        </div>
+      </div>
+      <br>
+      <!-- <p class="m-0"><%= link_to 'Show', kpi_type %> | <%= link_to 'Edit', edit_kpi_type_path(kpi_type) %> | <%= link_to 'Destroy', kpi_type, method: :delete, data: { confirm: 'Are you sure?' } %></p> -->
+    </div>
+  </div>
+  <br>
+
+<% end %>
+<br>
+

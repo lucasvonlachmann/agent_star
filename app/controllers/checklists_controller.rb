@@ -15,6 +15,7 @@ class ChecklistsController < ApplicationController
   # GET /checklists/new
   def new
     @checklist = Checklist.new
+    @checklist.scale_id = params[:scale_id] if params[:scale_id].present?
   end
 
   # GET /checklists/1/edit
@@ -28,7 +29,7 @@ class ChecklistsController < ApplicationController
 
     respond_to do |format|
       if @checklist.save
-        format.html { redirect_to @checklist, notice: 'Checklist was successfully created.' }
+        format.html { redirect_to scales_path, notice: 'Checklist was successfully created.' }
         format.json { render :show, status: :created, location: @checklist }
       else
         format.html { render :new }
@@ -42,7 +43,7 @@ class ChecklistsController < ApplicationController
   def update
     respond_to do |format|
       if @checklist.update(checklist_params)
-        format.html { redirect_to @checklist, notice: 'Checklist was successfully updated.' }
+        format.html { redirect_to scales_path, notice: 'Checklist was successfully updated.' }
         format.json { render :show, status: :ok, location: @checklist }
       else
         format.html { render :edit }
@@ -69,6 +70,6 @@ class ChecklistsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def checklist_params
-      params.require(:checklist).permit(:scale_id, :draft_arrival, :tugs_arrival, :eosp, :pob_arrival, :berthed, :gangway_ready, :started_ops, :completed_ops, :terminal_requested, :pob_departure, :last_line, :draft_departure, :tugs_departure)
+      params.require(:checklist).permit(:scale_id, :draft_arrival, :tugs_arrival, :eosp, :pob_arrival, :berthed, :gangway_ready, :started_ops, :completed_ops, :terminal_requested, :pob_departure, :last_line, :draft_departure, :tugs_departure, :remarks)
     end
 end

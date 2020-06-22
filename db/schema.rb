@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_10_225633) do
+ActiveRecord::Schema.define(version: 2020_06_22_155450) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,18 +69,38 @@ ActiveRecord::Schema.define(version: 2020_06_10_225633) do
     t.integer "tugs_departure"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "remarks"
     t.index ["scale_id"], name: "index_checklists_on_scale_id"
+  end
+
+  create_table "kpi_types", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "vw_name"
   end
 
   create_table "kpis", force: :cascade do |t|
     t.bigint "carrier_id"
-    t.string "name"
-    t.integer "taget"
+    t.integer "target"
     t.integer "max_limit"
     t.integer "min_limit"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "port_id"
+    t.bigint "kpi_type_id"
     t.index ["carrier_id"], name: "index_kpis_on_carrier_id"
+    t.index ["kpi_type_id"], name: "index_kpis_on_kpi_type_id"
+    t.index ["port_id"], name: "index_kpis_on_port_id"
+  end
+
+  create_table "pg_search_documents", force: :cascade do |t|
+    t.text "content"
+    t.string "searchable_type"
+    t.bigint "searchable_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["searchable_type", "searchable_id"], name: "index_pg_search_documents_on_searchable_type_and_searchable_id"
   end
 
   create_table "ports", force: :cascade do |t|
@@ -90,12 +110,12 @@ ActiveRecord::Schema.define(version: 2020_06_10_225633) do
   end
 
   create_table "root_causes", force: :cascade do |t|
-    t.bigint "kpi_id"
     t.string "name"
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["kpi_id"], name: "index_root_causes_on_kpi_id"
+    t.bigint "kpi_type_id"
+    t.index ["kpi_type_id"], name: "index_root_causes_on_kpi_type_id"
   end
 
   create_table "scales", force: :cascade do |t|
@@ -133,8 +153,101 @@ ActiveRecord::Schema.define(version: 2020_06_10_225633) do
   add_foreign_key "checklist_root_causes", "root_causes"
   add_foreign_key "checklists", "scales"
   add_foreign_key "kpis", "carriers"
-  add_foreign_key "root_causes", "kpis"
+  add_foreign_key "kpis", "kpi_types"
+  add_foreign_key "kpis", "ports"
+  add_foreign_key "root_causes", "kpi_types"
   add_foreign_key "scales", "carriers"
   add_foreign_key "scales", "ports"
   add_foreign_key "scales", "vessels"
+
+  create_view "vw_checklists", sql_definition: <<-SQL
+      SELECT s.id AS scale_id,
+      s.carrier_id,
+      ca.name AS carrier_name,
+      s.port_id,
+      p.name AS port_name,
+      s.vessel_id,
+      v.name AS vessel_name,
+      s.voyage,
+      s.service,
+      c.draft_arrival,
+      c.tugs_arrival,
+      c.eosp,
+      c.pob_arrival,
+      c.berthed,
+      c.gangway_ready,
+      c.started_ops,
+      c.completed_ops,
+      c.terminal_requested,
+      c.pob_departure,
+      c.last_line,
+      c.draft_departure,
+      c.tugs_departure,
+      c.remarks,
+      ((((date_part('day'::text, (c.berthed - c.eosp)) * (24)::double precision) + date_part('hour'::text, (c.berthed - c.eosp))) * (60)::double precision) + date_part('minute'::text, (c.berthed - c.eosp))) AS waiting_time,
+      ((((date_part('day'::text, (c.started_ops - c.berthed)) * (24)::double precision) + date_part('hour'::text, (c.started_ops - c.berthed))) * (60)::double precision) + date_part('minute'::text, (c.started_ops - c.berthed))) AS idle_time_arrival,
+      ((((date_part('day'::text, (c.last_line - c.completed_ops)) * (24)::double precision) + date_part('hour'::text, (c.last_line - c.completed_ops))) * (60)::double precision) + date_part('minute'::text, (c.last_line - c.completed_ops))) AS idle_time_departure
+     FROM ((((scales s
+       JOIN checklists c ON ((s.id = c.scale_id)))
+       JOIN ports p ON ((s.port_id = p.id)))
+       JOIN carriers ca ON ((s.carrier_id = ca.id)))
+       JOIN vessels v ON ((s.vessel_id = v.id)));
+  SQL
+  create_view "vw_checklist_kpis", sql_definition: <<-SQL
+      WITH aux AS (
+           SELECT vc.scale_id,
+              vc.carrier_id,
+              vc.carrier_name,
+              vc.port_id,
+              vc.port_name,
+              vc.waiting_time,
+              vc.idle_time_arrival,
+              vc.idle_time_departure,
+              kt.id AS kpi_type_id,
+              kt.name AS kpi_name,
+              k.id AS kpi_id,
+              k.target AS kpi_target,
+                  CASE
+                      WHEN ((kt.vw_name)::text = 'idle_time_arrival'::text) THEN ((k.target)::double precision - vc.idle_time_arrival)
+                      WHEN ((kt.vw_name)::text = 'idle_time_departure'::text) THEN ((k.target)::double precision - vc.idle_time_departure)
+                      WHEN ((kt.vw_name)::text = 'waiting_time'::text) THEN ((k.target)::double precision - vc.waiting_time)
+                      ELSE (0)::double precision
+                  END AS target_minus_actual
+             FROM ((vw_checklists vc
+               JOIN kpis k ON (((k.carrier_id = vc.carrier_id) AND (k.port_id = vc.port_id))))
+               JOIN kpi_types kt ON ((kt.id = k.kpi_type_id)))
+          )
+   SELECT aux.scale_id,
+      aux.carrier_id,
+      aux.carrier_name,
+      aux.port_id,
+      aux.port_name,
+      aux.waiting_time,
+      aux.idle_time_arrival,
+      aux.idle_time_departure,
+      aux.kpi_type_id,
+      aux.kpi_name,
+      aux.kpi_id,
+      aux.kpi_target,
+      aux.target_minus_actual,
+          CASE
+              WHEN (aux.target_minus_actual >= (0)::double precision) THEN 'In'::text
+              WHEN (aux.target_minus_actual < (0)::double precision) THEN 'Out'::text
+              ELSE 'x'::text
+          END AS target_in_out
+     FROM aux;
+  SQL
+  create_view "vw_checklist_root_causes", sql_definition: <<-SQL
+      SELECT s.id AS scale_id,
+      c.id AS checklist_id,
+      rc.id AS root_cause_id,
+      rc.name,
+      kt.id AS kpi_type_id,
+      kt.name AS kpi_type_name
+     FROM ((((checklist_root_causes crc
+       JOIN checklists c ON ((crc.checklist_id = c.id)))
+       JOIN scales s ON ((s.id = c.scale_id)))
+       JOIN root_causes rc ON ((crc.root_cause_id = rc.id)))
+       JOIN kpi_types kt ON ((kt.id = rc.kpi_type_id)));
+  SQL
 end

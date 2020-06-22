@@ -15,10 +15,16 @@ class ChecklistRootCausesController < ApplicationController
   # GET /checklist_root_causes/new
   def new
     @checklist_root_cause = ChecklistRootCause.new
+    @checklist_root_cause.checklist_id = params[:checklist_id] if params[:checklist_id].present?
+    @kpi = Kpi.find(params[:kpi_id]) if params[:kpi_id].present?
+    @root_causes = @kpi.root_causes
   end
 
   # GET /checklist_root_causes/1/edit
   def edit
+    @kpi = Kpi.where(carrier_id: @checklist_root_cause.checklist.scale.carrier_id,
+                     port_id: @checklist_root_cause.checklist.scale.port_id,
+                     kpi_type_id: @checklist_root_cause.root_cause.kpi_type_id).first
   end
 
   # POST /checklist_root_causes
@@ -28,7 +34,7 @@ class ChecklistRootCausesController < ApplicationController
 
     respond_to do |format|
       if @checklist_root_cause.save
-        format.html { redirect_to @checklist_root_cause, notice: 'Checklist root cause was successfully created.' }
+        format.html { redirect_to scales_path, notice: 'Checklist root cause was successfully created.' }
         format.json { render :show, status: :created, location: @checklist_root_cause }
       else
         format.html { render :new }

@@ -69,6 +69,6 @@ class RootCausesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def root_cause_params
-      params.require(:root_cause).permit(:kpi_id, :name, :description)
+      params.require(:root_cause).permit(:kpi_type_id, :name, :description)
     end
 end

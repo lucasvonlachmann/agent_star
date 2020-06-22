@@ -15,21 +15,25 @@
           <%= link_to "Home", root_path, class: "nav-link" %>
         </li>
         <li class="nav-item">
-          <%= link_to "Scales", scales_path, class: "nav-link" %>
+          <%= link_to "Calls", scales_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Kpis", kpi_types_path, class: "nav-link" %>
         </li>
         <li class="nav-item dropdown mr-5">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Menus
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-            <%= link_to "Scales", scales_path, class: "dropdown-item" %>
+            <%= link_to "Calls", scales_path, class: "dropdown-item" %>
             <%= link_to "Checklists", checklists_path, class: "dropdown-item" %>
             <%= link_to "Checklist - Root causes", checklist_root_causes_path, class: "dropdown-item" %>
-            <%= link_to "Vessels", vessels_path, class: "dropdown-item" %>
-            <%= link_to "Carriers", carriers_path, class: "dropdown-item" %>
-            <%= link_to "Ports", ports_path, class: "dropdown-item" %>
             <%= link_to "Kpis", kpis_path, class: "dropdown-item" %>
             <%= link_to "Root causes", root_causes_path, class: "dropdown-item" %>
+            <%= link_to "Kpi types", kpi_types_path, class: "dropdown-item" %>
+            <%= link_to "Ports", ports_path, class: "dropdown-item" %>
+            <%= link_to "Carriers", carriers_path, class: "dropdown-item" %>
+            <%= link_to "Vessels", vessels_path, class: "dropdown-item" %>
           </div>
         </li>
         <li class="nav-item dropdown">

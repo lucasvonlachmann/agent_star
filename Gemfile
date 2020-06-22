@@ -34,7 +34,8 @@ gem 'redis', '~> 4.0'
 gem 'audited', '~> 4.9'
 gem 'chartkick'
 gem 'groupdate'
-
+gem 'pg_search'
+gem 'scenic'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

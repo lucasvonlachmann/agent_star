@@ -69,6 +69,6 @@ class KpisController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def kpi_params
-      params.require(:kpi).permit(:carrier_id, :name, :taget, :max_limit, :min_limit)
+      params.require(:kpi).permit(:carrier_id, :port_id, :kpi_type_id, :target, :max_limit, :min_limit)
     end
 end

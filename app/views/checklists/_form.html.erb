@@ -4,7 +4,13 @@
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
   <div class="form-inputs">
-    <%= f.association :scale %>
+    <% if @checklist.scale.present? %>
+      <%= render "scales/details_card", scale: @checklist.scale %>
+      <%= f.association :scale, as: :hidden %>
+      <br>
+    <% else %>
+      <%= f.association :scale %>
+    <% end %>
     <%= f.input :draft_arrival %>
     <%= f.input :tugs_arrival %>
     <%= f.input :eosp %>
@@ -18,9 +24,10 @@
     <%= f.input :last_line %>
     <%= f.input :draft_departure %>
     <%= f.input :tugs_departure %>
+    <%= f.input :remarks %>
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit %>
+    <%= f.button :submit, "Salvar", class: "btn btn-success" %>
   </div>
 <% end %>

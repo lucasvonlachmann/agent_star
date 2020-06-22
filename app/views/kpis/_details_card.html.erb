@@ -1,0 +1,23 @@
+<div class="card">
+  <h5 class="card-header">KPI details</h5>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-2 mb-2">
+        <p class="m-0">KPI</p>
+        <p class="m-0"><strong><%= kpi.kpi_type.name %></strong></p>
+      </div>
+      <div class="col-2 mb-2">
+        <p class="m-0">Target</p>
+        <p class="m-0"><strong><%= kpi.target %></strong></p>
+      </div>
+      <div class="col-2 mb-2">
+        <p class="m-0">Min Limit</p>
+        <p class="m-0"><strong><%= kpi.target + kpi.min_limit %></strong></p>
+      </div>
+      <div class="col-2 mb-2">
+        <p class="m-0">Max Limit</p>
+        <p class="m-0"><strong><%= kpi.target + kpi.max_limit %></strong></p>
+      </div>
+    </div>
+  </div>
+</div>

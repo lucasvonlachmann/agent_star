@@ -1,0 +1,21 @@
+<div id="accordion">
+  <% audits.each do |audit| %>
+    <div class="card">
+      <div class="card-header d-flex justify-content-between" id="heading<%= audit.id %>">
+        <p class="btn btn-link m-0 p-0" data-toggle="collapse" data-target="#collapse<%= audit.id %>" aria-expanded="true" aria-controls="collapse<%= audit.id %>">
+          <%= audit.user.email %>
+        </p>
+        <p class="text-secondary m-0 p-0"><%= audit.created_at.strftime("%m/%d/%Y %H:%M") %></p>
+      </div>
+
+      <div id="collapse<%= audit.id %>" class="card-body collapse" aria-labelledby="heading<%= audit.id %>" data-parent="#accordion">
+        <p><strong>Fields changed</strong></p>
+        <ul>
+          <% audit.audited_changes.each do |key, value| %>
+            <li><%= key.to_s %> <i class="fas fa-arrow-right"></i> <%= value.to_s %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+</div>
