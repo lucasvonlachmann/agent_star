@@ -30,7 +30,7 @@
     </thead>
 
     <tbody>
-      <% @scales.each do |scale| %>
+      <% @scales.order(created_at: :desc).each do |scale| %>
         <tr>
           <td class="d-flex justify-content-around">
             <%= link_to scale do %>
